@@ -100,7 +100,7 @@ case, iterators are allowed to refer to variables defined by iterators to their
 left, which is not the case with the `for ... and ...` syntax. To express it in
 categorical terms, `for ... for ...` behaves like nested bindings in the usual
 list monad, whereas `for ... and ...` results in the “parallel” bindings that
-one can perform in the associated applicative functor.
+one can perform in an applicative functor.
 
 This difference also has performance implications, as we will in a moment.
 
