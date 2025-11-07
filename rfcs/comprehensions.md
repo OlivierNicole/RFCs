@@ -259,14 +259,18 @@ for x = start to stop do
 done;
 (* Cut the array back down to size *)
 Array.sub !array 0 !index
+``
 
 On the other hand, consider this array comprehension, which is subject to the fixed-size array comprehension optimization:
 
+```ocaml
 [|x*y for x = 1 to 3 and y = 10 downto 8|]
 (* = [|10; 9; 8; 20; 18; 16; 30; 27; 24|] *)
+```
 
 This translates to (the Lambda equivalent of) the following rather different OCaml:
 
+```ocaml
 (* ... = 1 to 3 *)
 let start_x = 1  in
 let stop_x  = 3  in
