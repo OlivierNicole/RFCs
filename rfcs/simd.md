@@ -18,10 +18,10 @@ float64x2       float64x4
 Within a function, all SIMD vectors live in floating-point registers or 16-byte
 aligned stack slots.
 
-Since mainline OCaml does not have unboxed types, SIMD vectors are boxed. When
-passed to a non-inlined function, they will be copied to a heap-allocated
-(abstract) block. Boxed vectors are not necessarily aligned, so will generate
-unaligned load/store instructions.
+Since OCaml does not have unboxed types, SIMD vectors are boxed. When passed to
+a non-inlined function, they will be copied to a heap-allocated (abstract)
+block. Boxed vectors are not necessarily aligned, so will generate unaligned
+load/store instructions.
 
 ## Intrinsics
 
@@ -108,13 +108,19 @@ and allocated as abstract blocks.
 The new builtins for SIMD operations on vectors are compiled to the
 corresponding assembly instructions.
 
-TODO
-Features to add in future PRs:
+## TODO Questions left to answer
 
-    otherlibs module providing the user facing API
-    bigstring / bigarray / load from float array support
-    vec128array of unboxed vec128s (for float32 / float64 only)
-    vec128 layout + unboxed 128 bit types
-
-Later, the same for 256-bit and 512-bit operations.
-TODO
+- Upstreaming this will probably require exposing a new API in the Stdlib, and
+  this API will probably have to be different from Jane Street’s `ocaml_simd`
+  libs, because 1° These libraries’ names are molded on Intel x86 extensions
+  (`ocaml_simd_sse` and `ocaml_simd_avx`) and 2° they mostly use
+  unboxed types, which are not supported upstream.
+- The exposed interface should probably be the greatest common subset of
+  operations that can be implemented in a cross-platform way.
+- The absence of unboxed types upstream weakens the interest of SIMD.
+- The implementation seems to be still changing rapidly, that worries us in an
+  upstreaming context. E.g., [Generalize simd with memory operand
+  #4988](https://github.com/oxcaml/oxcaml/pull/4988) is 5 days old at time of
+  writing.
+- For bytecode, no compatibility seems to be in place: trying to build a
+  program that uses `ocaml_simd.see` to bytecode fails with a linking error.
