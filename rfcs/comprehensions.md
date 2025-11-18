@@ -194,7 +194,7 @@ CamlinternalComprehension.rev_list_to_list (
           iter_list
           (fun y acc_y ->
             (* The body: x+y *)
-            Snoc { init = acc_y; last = x*y })
+            Snoc { init = acc_y; last = x+y })
           acc_x
       else
         acc_x)
@@ -252,7 +252,7 @@ for x = start to stop do
     for iter_ix = 0 to Array.length iter_arr - 1 do
       let y = iter_arr.(iter_ix) in
       (* The body: x + y *)
-      Dynarray.add_last array <- x + y;
+      Dynarray.add_last array (x + y);
     done
 done;
 (* Convert to a fixed-size array of the right type *)
